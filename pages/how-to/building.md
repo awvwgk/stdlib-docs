@@ -10,6 +10,16 @@ To build stdlib the following requirements must be met
 - the [fypp](https://github.com/aradi/fypp) preprocessor (used as meta-programming tool)
 
 
+## Getting the source
+
+Start by cloning the repository from GitHub with
+
+```{code-block} text
+git clone https://github.com/fortran-lang/stdlib
+cd stdlib
+```
+
+
 ## Installing build tools
 
 The following sections describe how to setup your system with the required build tools.
