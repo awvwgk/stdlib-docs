@@ -1,3 +1,5 @@
+(building-from-source)=
+
 # Building stdlib from source
 
 This guide describes how to setup a development environment to build Fortran Standard Library (stdlib).

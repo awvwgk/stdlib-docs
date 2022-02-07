@@ -7,6 +7,8 @@ This section contains practical guides and recipes for solving specific problems
 :::
 
 :::{toctree}
+installing
+fpm
 building
 npy
 :::
