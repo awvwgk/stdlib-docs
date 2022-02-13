@@ -1,7 +1,12 @@
 # Statistics
 
-The Fortran Standard library provides various procedures for descriptive
-statistics, probability distributions, and random number generations.
+The Fortran Standard library provides various procedures for:
+ * descriptive statistics;
+ * covariances and correlations;
+ * probability distributions; and
+ * random number generations.
+
+
 
 :::{toctree}
 :maxdepth: 2

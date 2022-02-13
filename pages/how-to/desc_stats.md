@@ -2,7 +2,7 @@
 
 A descriptive statistic is a summary statistic that describes and summarizes
 different features of a dataset.
-The Standard Fortran library stdlib provides several descriptive statistics that can be
+The Fortran Standard library stdlib provides several descriptive statistics that can be
 classified in two groups:
 
  * the measures of central tendency, such as the mean and the median;
@@ -24,7 +24,7 @@ as the median, the moment, of the variance of a dataset.
 The Fortran Standard library stdlib provides the function `mean` for computing the
 mean of a whole array:
 
-:::{literalinclude} ../../src/tutorial/stats/app/mean_all.f90
+:::{literalinclude} ../../src/how-to/stats/app/mean_all.f90
 :language: fortran
 :caption: mean_all.f90
 :::
@@ -32,7 +32,7 @@ mean of a whole array:
 The same function can be also used to compute the mean of the elements of an array
 along a dimension:
 
-:::{literalinclude} ../../src/tutorial/stats/app/mean_dim.f90
+:::{literalinclude} ../../src/how-to/stats/app/mean_dim.f90
 :language: fortran
 :caption: mean_dim.f90
 :::
@@ -40,7 +40,7 @@ along a dimension:
 Finally, a mask can be also provided to ignore some elements of the array, as
 follows:
 
-:::{literalinclude} ../../src/tutorial/stats/app/mean_mask.f90
+:::{literalinclude} ../../src/how-to/stats/app/mean_mask.f90
 :language: fortran
 :caption: mean_mask.f90
 :::
