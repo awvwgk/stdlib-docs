@@ -1,0 +1,5 @@
+name = "example-stats"
+
+[dependencies]
+stdlib.git = "https://github.com/fortran-lang/stdlib"
+stdlib.branch = "stdlib-fpm"
