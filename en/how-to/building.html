@@ -1,0 +1,636 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Building stdlib from source &#8212; Fortran Standard Library</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet">
+  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-book-theme.css?digest=84ace793992934648b4de8eed757e5a2" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.59c74d8c95b765a7fd995ac71d459ebe.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/design-tabs.js"></script>
+    <script src="../_static/sphinx-book-theme.9d8b4a8b9bb19db25eeaddc40d639ba2.js"></script>
+    <link rel="shortcut icon" href="../_static/fortran-logo-orange.svg"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Statistics" href="statistics.html" />
+    <link rel="prev" title="Using stdlib with fpm" href="fpm.html" /> 
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en">
+    
+
+    <!-- Google Analytics -->
+      
+<style type="text/css">
+  ul.ablog-archive {
+    list-style: none;
+    overflow: auto;
+    margin-left: 0px;
+  }
+  ul.ablog-archive li {
+    float: left;
+    margin-right: 5px;
+    font-size: 80%;
+  }
+  ul.postlist a {
+    font-style: italic;
+  }
+  ul.postlist-style-disc {
+    list-style-type: disc;
+  }
+  ul.postlist-style-none {
+    list-style-type: none;
+  }
+  ul.postlist-style-circle {
+    list-style-type: circle;
+  }
+</style>
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<div class="col-12 col-md-3 bd-sidebar site-navigation " id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../_static/stdlib-logo.svg" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Fortran Standard Library</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="current nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../tutorial/index.html">
+   Tutorial
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="simple">
+  </ul>
+ </li>
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="index.html">
+   How-To
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2">
+    <a class="reference internal" href="installing.html">
+     Installing stdlib packages
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="fpm.html">
+     Using stdlib with fpm
+    </a>
+   </li>
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     Building stdlib from source
+    </a>
+   </li>
+   <li class="toctree-l2 has-children">
+    <a class="reference internal" href="statistics.html">
+     Statistics
+    </a>
+    <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+    <label for="toctree-checkbox-3">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul>
+     <li class="toctree-l3">
+      <a class="reference internal" href="desc_stats.html">
+       Descriptive statistics
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="covcorr.html">
+       Covariance and correlation
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="npy.html">
+     Reading and writing npy files
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../design/index.html">
+   Design
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+  <label for="toctree-checkbox-4">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="simple">
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../spec/index.html">
+   Reference
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+  <label for="toctree-checkbox-5">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference external" href="https://stdlib.fortran-lang.org">
+     API documentation
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../news.html">
+   News
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav><p align="center">
+  <div class="navbar_extra_footer">
+    <div class="sd-fs-6">
+    ·
+      <b>en</b>
+      ·
+    </div>
+    
+    
+<div class="sd-fs-4">
+<a href="https://fortran-lang.discourse.group/" target="_blank">
+    <i class="fab fa-discourse"></i>
+</a>
+<a href="https://twitter.com/fortranlang" target="_blank">
+    <i class="fab fa-twitter"></i>
+</a>
+<a href="https://github.com/fortran-lang/stdlib" target="_blank">
+    <i class="fab fa-github"></i>
+</a>
+</div>
+
+    
+  </div>
+</p>
+</div>
+
+
+          
+
+
+          
+<!-- This is an invisible pixel that we watch to see if we've scrolled. -->
+<div class="sbt-scroll-pixel-helper"></div>
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            <div class="topbar-left">
+                
+                <label class="nav-toggle-button" for="__navigation">
+                    <div class="visually-hidden">Toggle navigation</div>
+                    <i class="fas fa-bars"></i>
+                </label>
+                
+            </div>
+            
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/awvwgk/stdlib-docs"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        
+        <a class="edit-button" href="https://github.com/awvwgk/stdlib-docs/edit/main/pages/how-to/building.md"><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#getting-the-source">
+   Getting the source
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#installing-build-tools">
+   Installing build tools
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#conda">
+     Conda
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#msys2">
+     MSYS2
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#homebrew">
+     Homebrew
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#build-with-cmake">
+   Build with CMake
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#supported-compilers">
+   Supported compilers
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Building stdlib from source</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#getting-the-source">
+   Getting the source
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#installing-build-tools">
+   Installing build tools
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#conda">
+     Conda
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#msys2">
+     MSYS2
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#homebrew">
+     Homebrew
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#build-with-cmake">
+   Build with CMake
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#supported-compilers">
+   Supported compilers
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
+              <div>
+                 <div class="section" id="building-stdlib-from-source">
+<span id="building-from-source"></span><h1>Building stdlib from source<a class="headerlink" href="#building-stdlib-from-source" title="Permalink to this headline">¶</a></h1>
+<p>This guide describes how to setup a development environment to build Fortran Standard Library (stdlib).
+To build stdlib the following requirements must be met</p>
+<ul class="simple">
+<li><p>a Fortran 2008 compliant compiler, or better, a Fortran 2018 compliant compiler
+(for a full list see <a class="reference internal" href="#supported-compilers"><span class="std std-ref">Supported compilers</span></a>)</p></li>
+<li><p>CMake version 3.14 or newer (alternatively Make can be used)</p></li>
+<li><p>a build backend for CMake, like Make or Ninja (the latter is recommended on Windows)</p></li>
+<li><p>the <a class="reference external" href="https://github.com/aradi/fypp">fypp</a> preprocessor (used as meta-programming tool)</p></li>
+</ul>
+<div class="section" id="getting-the-source">
+<h2>Getting the source<a class="headerlink" href="#getting-the-source" title="Permalink to this headline">¶</a></h2>
+<p>Start by cloning the repository from GitHub with</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/fortran-lang/stdlib
+cd stdlib
+</pre></div>
+</div>
+</div>
+<div class="section" id="installing-build-tools">
+<h2>Installing build tools<a class="headerlink" href="#installing-build-tools" title="Permalink to this headline">¶</a></h2>
+<p>The following sections describe how to setup your system with the required build tools.</p>
+<div class="section" id="conda">
+<h3>Conda<a class="headerlink" href="#conda" title="Permalink to this headline">¶</a></h3>
+<p>To install the build requirements in on all platforms we recommend the <a class="reference external" href="https://docs.conda.io/en/latest/">conda</a> package manager.
+First, enable the conda-forge if not already available with</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>conda config --add channels conda-forge
+</pre></div>
+</div>
+<p>Create and activate a new environment with</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>conda create -n stdlib-tools fypp cmake ninja
+conda activate stdlib-tools
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>A conda environment can be setup using the <a class="reference external" href="https://github.com/conda-forge/miniforge/releases">miniforge installer</a>.</p>
+</div>
+<p>Also, you can install a Fortran compiler from conda-forge by installing the <code class="docutils literal notranslate"><span class="pre">fortran-compiler</span></code> package, which installs GFortran.</p>
+</div>
+<div class="section" id="msys2">
+<h3>MSYS2<a class="headerlink" href="#msys2" title="Permalink to this headline">¶</a></h3>
+<p>For Windows users the <a class="reference external" href="https://www.msys2.org/">MSYS2</a> toolchain provides access to the required build tools.</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>pacman -S mingw-w64-x86_64-python-fypp mingw-w64-x86_64-cmake mingw-w64-x86_64-ninja
+</pre></div>
+</div>
+<p>The native terminals MinGW64 (<code class="docutils literal notranslate"><span class="pre">x86_64</span></code>), MinGW32 (<code class="docutils literal notranslate"><span class="pre">i686</span></code>), and UCRT64 (<code class="docutils literal notranslate"><span class="pre">ucrt-x86_64</span></code>) can be used to build stdlib.
+MSYS2 also provides up-to-date Fortran compilers which can be installed via</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>pacman -S mingw-w64-x86_64-gcc-fortran
+</pre></div>
+</div>
+</div>
+<div class="section" id="homebrew">
+<h3>Homebrew<a class="headerlink" href="#homebrew" title="Permalink to this headline">¶</a></h3>
+<p>For MacOS the <a class="reference external" href="https://brew.sh/">brew</a> package manager can be used to provide the required build tools:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>brew install fypp cmake ninja
+</pre></div>
+</div>
+<p>A Fortran compiler can be installed via</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>brew install gcc
+</pre></div>
+</div>
+<p>To select a specific version add the major version number to the formula, <em>e.g.</em> <code class="docutils literal notranslate"><span class="pre">gcc&#64;10</span></code> for GCC 10.</p>
+</div>
+</div>
+<div class="section" id="build-with-cmake">
+<h2>Build with CMake<a class="headerlink" href="#build-with-cmake" title="Permalink to this headline">¶</a></h2>
+<p>Start by configuring the build with</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>cmake -B build -G Ninja
+</pre></div>
+</div>
+<p>You can pass additional options to CMake to customize the build.
+Important options are</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">-DCMAKE_INSTALL_PREFIX</span></code> is used to provide the install location for the library. If not provided the defaults will depend on your operating system, <a class="reference external" href="https://cmake.org/cmake/help/latest/variable/CMAKE_INSTALL_PREFIX.html">see here</a>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-DCMAKE_MAXIMUM_RANK</span></code> the maximum array rank procedures should be generated for.
+The default value is chosen as 4.
+The maximum is 15 for Fortran 2003 compliant compilers, otherwise 7 for compilers not supporting Fortran 2003 completely yet.
+The minimum required rank to compile this project is 4.
+Compiling with maximum rank 15 can be resource intensive and requires at least 16 GB of memory to allow parallel compilation or 4 GB memory for sequential compilation.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-DBUILD_SHARED_LIBS</span></code> set to <code class="docutils literal notranslate"><span class="pre">on</span></code> in case you want link your application dynamically against the standard library (default: <code class="docutils literal notranslate"><span class="pre">off</span></code>).</p></li>
+</ul>
+<p>For example, to configure a build using the Ninja backend while specifying compiler flags <code class="docutils literal notranslate"><span class="pre">FFLAGS</span></code>, generating procedures up to rank 7, and installing to your home directory, use</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>export FFLAGS=&quot;-O3&quot;
+cmake -B build -G Ninja -DCMAKE_MAXIMUM_RANK:String=7 -DCMAKE_INSTALL_PREFIX=$HOME/.local
+</pre></div>
+</div>
+<p>To build the standard library run</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>cmake --build build
+</pre></div>
+</div>
+<p>To test your build, run the test suite after the build has finished with</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>cmake --build build --target test
+</pre></div>
+</div>
+<p>Please report failing tests on our <a class="reference external" href="https://github.com/fortran-lang/stdlib/issues/new/choose">issue tracker</a> including details of the compiler used, the operating system and platform architecture.</p>
+<p>To install the project to the declared prefix run</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>cmake --install build
+</pre></div>
+</div>
+<p>Now you have a working version of stdlib you can use for your project.</p>
+<p>If at some point you wish to recompile <code class="docutils literal notranslate"><span class="pre">stdlib</span></code> with different options, you might
+want to delete the <code class="docutils literal notranslate"><span class="pre">build</span></code> folder. This will ensure that cached variables from
+earlier builds do not affect the new build.</p>
+</div>
+<div class="section" id="supported-compilers">
+<span id="id1"></span><h2>Supported compilers<a class="headerlink" href="#supported-compilers" title="Permalink to this headline">¶</a></h2>
+<p>The following compiler versions are currently supported and tested for stdlib</p>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Version</p></th>
+<th class="head"><p>Platform</p></th>
+<th class="head"><p>Architecture</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>GCC Fortran</p></td>
+<td><p>9, 10, 11</p></td>
+<td><p>Ubuntu 20.04</p></td>
+<td><p>x86_64</p></td>
+</tr>
+<tr class="row-odd"><td><p>GCC Fortran</p></td>
+<td><p>9, 10, 11</p></td>
+<td><p>MacOS Catalina 10.15</p></td>
+<td><p>x86_64</p></td>
+</tr>
+<tr class="row-even"><td><p>GCC Fortran (MSYS)</p></td>
+<td><p>10</p></td>
+<td><p>Windows Server 2019</p></td>
+<td><p>x86_64</p></td>
+</tr>
+<tr class="row-odd"><td><p>GCC Fortran (MinGW)</p></td>
+<td><p>10</p></td>
+<td><p>Windows Server 2019</p></td>
+<td><p>x86_64, i686</p></td>
+</tr>
+<tr class="row-even"><td><p>Intel oneAPI classic</p></td>
+<td><p>2021.1</p></td>
+<td><p>Ubuntu 20.04</p></td>
+<td><p>x86_64</p></td>
+</tr>
+<tr class="row-odd"><td><p>Intel oneAPI classic</p></td>
+<td><p>2021.1</p></td>
+<td><p>MacOS Catalina 10.15</p></td>
+<td><p>x86_64</p></td>
+</tr>
+</tbody>
+</table>
+<p>The following toolchains are known to fail.
+Please check the linked issues for their current status.</p>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Version</p></th>
+<th class="head"><p>Platform</p></th>
+<th class="head"><p>Architecture</p></th>
+<th class="head"><p>Status</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>GCC Fortran</p></td>
+<td><p>&lt;9</p></td>
+<td><p>any</p></td>
+<td><p>any</p></td>
+<td><p><a class="reference external" href="https://github.com/fortran-lang/stdlib/issues/296">#296</a>, <a class="reference external" href="https://github.com/fortran-lang/stdlib/pull/430">#430</a></p></td>
+</tr>
+<tr class="row-odd"><td><p>NVIDIA HPC SDK</p></td>
+<td><p>20.7, 20.9, 20.11</p></td>
+<td><p>Manjaro Linux 20</p></td>
+<td><p>x86_64</p></td>
+<td><p><a class="reference external" href="https://github.com/fortran-lang/stdlib/issues/107">#107</a></p></td>
+</tr>
+<tr class="row-even"><td><p>NAG</p></td>
+<td><p>7.0</p></td>
+<td><p>RHEL</p></td>
+<td><p>x86_64</p></td>
+<td><p><a class="reference external" href="https://github.com/fortran-lang/stdlib/issues/108">#108</a></p></td>
+</tr>
+<tr class="row-odd"><td><p>Intel Parallel Studio XE</p></td>
+<td><p>16, 17, 18</p></td>
+<td><p>OpenSUSE</p></td>
+<td><p>x86_64</p></td>
+<td><p><a class="reference external" href="https://github.com/fortran-lang/stdlib/issues/299">#299</a></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div class="section">
+   
+</div>
+
+              </div>
+              
+            
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="fpm.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Using stdlib with fpm</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="statistics.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Statistics</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            
+        </div>
+    </div>
+    <footer class="footer">
+  <p>
+    
+      By stdlib contributors<br/>
+    
+        &copy; Copyright 2022 Fortran programming language community.<br/>
+  </p>
+</footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>
